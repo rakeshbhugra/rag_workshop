@@ -16,9 +16,15 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+knowledge_base = {
+    "What is RAG?": "RAG stands for Retrieval-Augmented Generation, a technique that combines information retrieval with generative models to provide more accurate and context-aware responses.",
+    "How does RAG work?": "RAG works by first retrieving relevant documents or information based on a user's query, then augmenting the query with this information, and finally generating a response using a language model.",
+    "Who wrote '1984'?": "'1984' was written by George Orwell.",
+    "What is the capital of France?": "The capital of France is Paris.",
+}
 
-def retrieve():
-    pass
+def retrieve(query):
+    return knowledge_base.get(query, "No relevant documents found.")
 
 def augment(retrieved_docs, query):
     user_prompt = f"<context> augmented prompt: {retrieved_docs} </context> based on the above context, answer the user query: {query}"
@@ -40,13 +46,17 @@ def generate(user_prompt):
     return response.choices[0].message['content']
 
     
-knowledge_base = {
-    "What is RAG?": "RAG stands for Retrieval-Augmented Generation, a technique that combines information retrieval with generative models to provide more accurate and context-aware responses.",
-    "How does RAG work?": "RAG works by first retrieving relevant documents or information based on a user's query, then augmenting the query with this information, and finally generating a response using a language model.",
-    "Who wrote '1984'?": "'1984' was written by George Orwell.",
-    "What is the capital of France?": "The capital of France is Paris.",
-}
-
-query = "What is RAG?"
-
-print(knowledge_base[query])
+if __name__ == "__main__":
+    user_query = "define"
+    
+    # Retrieval
+    retrieved_docs = retrieve(user_query)
+    print(f"Retrieved Documents: {retrieved_docs}")
+    
+    # Augmentation
+    user_prompt = augment(retrieved_docs, user_query)
+    print(f"Augmented Prompt: {user_prompt}")
+    
+    # Generation
+    answer = generate(user_prompt)
+    print(f"Generated Answer: {answer}") 
