@@ -24,8 +24,8 @@ def parse_pdf_pages(pdf_path, max_pages=50):
         })
         
     print(len(pages_data))
-
-    print("done...")
+    doc.close()
+    return pages_data
 
     
 if __name__ == "__main__":
